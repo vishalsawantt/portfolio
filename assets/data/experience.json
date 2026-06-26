@@ -1,0 +1,41 @@
+[
+  {
+    "role": "Junior Software Engineer",
+    "company": "Cosmino.space",
+    "duration": "March 2026 - Present",
+    "location": "Pune, India",
+    "type": "Full Time",
+    "description": "Building a startup app from scratch in a fast-paced environment.",
+    "points": [
+      "Building and maintaining the Flutter app from scratch",
+      "Working closely with founders on product decisions",
+      "Implementing Firebase backend integration"
+    ]
+  },
+  {
+    "role": "Full Stack Developer",
+    "company": "Averta Strategy Pvt Ltd",
+    "duration": "July 2025 - February 2026",
+    "location": "Pune, India",
+    "type": "Full Time",
+    "description": "Worked on company's analytics platform with Next.js and Flutter.",
+    "points": [
+      "Built Flutter mobile screens and features",
+      "Developed analytics panel using Next.js",
+      "Integrated REST APIs with backend services"
+    ]
+  },
+  {
+    "role": "Android Developer Intern",
+    "company": "Plutecoder Technologies",
+    "duration": "Aug 2023 - Oct 2023",
+    "location": "Solapur, India",
+    "type": "Internship",
+    "description": "Worked on Android app development using Java and Kotlin.",
+    "points": [
+      "Developed native Android features",
+      "Integrated REST APIs for data fetching",
+      "Fixed bugs and improved app performance"
+    ]
+  }
+]

@@ -1,0 +1,40 @@
+[
+    {
+        "category": "Language & Framework",
+        "icon": "mobile",
+        "skills": [
+            "Flutter",
+            "Dart",
+            "Java"
+        ]
+    },
+    {
+        "category": "Backend & Database",
+        "icon": "database",
+        "skills":[
+            "Firebase",
+            "MySQL",
+            "SQLite",
+            "REST API"
+        ]
+    },
+    {
+        "category": "Tools",
+        "icon": "tools",
+        "skills": [
+            "Git",
+            "Postman",
+            "VS Code",
+            "GitHub"
+        ]
+    },
+    {
+        "category": "Integrations",
+        "icon": "integration",
+        "skills": [
+            "Razorpay",
+            "FCM Push Notification",
+            "Google Maps API"
+        ]
+    }
+]
