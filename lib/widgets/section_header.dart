@@ -13,17 +13,24 @@ class SectionHeader extends StatelessWidget {
     return FadeInDown(
       duration: const Duration(milliseconds: 600),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center, // ← changed from .start
         children: [
-          Text(label, style: TextStyle(
-            fontSize: 13,
-            color: AppColors.primary,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 3,
-          ),
+          Text(
+            label,
+            textAlign: TextAlign.center, // ← added
+            style: TextStyle(
+              fontSize: 13,
+              color: AppColors.primary,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 3,
+            ),
           ),
           const SizedBox(height: 8),
-          Text(title, style: Theme.of(context).textTheme.displayMedium),
+          Text(
+            title,
+            textAlign: TextAlign.center, // ← added
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
           const SizedBox(height: 12),
           Container(
             width: 50,

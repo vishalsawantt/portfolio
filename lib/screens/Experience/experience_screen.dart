@@ -14,13 +14,13 @@ class ExperienceSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: Responsive.isMobile(context) ? 24 :80,
-        vertical: 80,
-      ),
+  horizontal: Responsive.isMobile(context) ? 24 : 80,
+  vertical: Responsive.isMobile(context) ? 40 : 80,
+),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SectionHeader(label: "WHERE I WORKED", title: "Experience"),
+          SectionHeader(label: "WHERE I'VE WORKED", title: "Experience"),
           const SizedBox(height: 48),
 
           FutureBuilder<List<ExperienceModel>>(
@@ -40,20 +40,28 @@ class ExperienceSection extends StatelessWidget {
 
               final experiences = snapshot.data!;
 
-              return Column(
-                children: List.generate(experiences.length, (index) {
-                  return _ExperienceItem(
-                    experience: experiences[index], 
-                    isLast: index == experiences.length - 1);
-                }),
-              ); 
+              // ── centers the timeline block on the page ──
+              return Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: Column(
+                    children: List.generate(experiences.length, (index) {
+                      return _ExperienceItem(
+                        experience: experiences[index],
+                        isLast: index == experiences.length - 1,
+                      );
+                    }),
+                  ),
+                ),
+              );
             },
-          ),          
+          ),
         ],
       ),
     );
   }
 }
+
 class _ExperienceItem extends StatelessWidget {
   final ExperienceModel experience;
   final bool isLast;
@@ -63,11 +71,27 @@ class _ExperienceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return FadeIn(
       duration: const Duration(milliseconds: 600),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
+      child: Stack(
+        children: [
+          // ── connecting line — positioned independently of card height ──
+          // no IntrinsicHeight/Expanded needed, so it never misaligns
+          // regardless of how much text is in the card
+          if (!isLast)
+            Positioned(
+              left: 21, // centers under the 44px circle
+              top: 44,  // starts right below the icon
+              bottom: 0,
+              child: Container(
+                width: 1.5,
+                color: AppColors.border,
+              ),
+            ),
+
+          // ── icon + card row ──
+          Padding(
+            padding: const EdgeInsets.only(bottom: 32),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: 44,
@@ -83,28 +107,20 @@ class _ExperienceItem extends StatelessWidget {
                     size: 18,
                   ),
                 ),
-                if (!isLast)
-                  Expanded(
-                    child: Container(
-                      width: 1.5,
-                      color: AppColors.border,
-                    )
-                  ),
+                const SizedBox(width: 24),
+                Expanded(
+                  child: _ExperienceCard(experience: experience),
+                ),
               ],
             ),
-            const SizedBox(width: 24),
-
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 32),
-                child: _ExperienceCard(experience: experience),))
-          ],
-        ),
-      ));
+          ),
+        ],
+      ),
+    );
   }
 }
 
-// ----------------------------------------------------------
+// _ExperienceCard stays exactly as you have it — no changes needed
 class _ExperienceCard extends StatelessWidget {
   final ExperienceModel experience;
   const _ExperienceCard({required this.experience});
@@ -121,7 +137,6 @@ class _ExperienceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // role title + duration badge
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 12,
@@ -148,10 +163,7 @@ class _ExperienceCard extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 6),
-
-          // company + location
           Text(
             '${experience.company} · ${experience.location}',
             style: const TextStyle(
@@ -159,18 +171,12 @@ class _ExperienceCard extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-
           const SizedBox(height: 12),
-
-          // description
           Text(
             experience.description,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-
           const SizedBox(height: 12),
-
-          // bullet points
           ...experience.points.map((point) => Padding(
                 padding: const EdgeInsets.only(bottom: 6),
                 child: Row(

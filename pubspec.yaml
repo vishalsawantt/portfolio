@@ -39,6 +39,9 @@ dependencies:
   visibility_detector: ^0.4.0+2
   lottie: ^3.0.0
   get: ^4.7.3
+  flutter_svg: ^2.0.10+1
+  http: ^1.2.2
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -69,10 +72,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/data/home.json
+     - assets/data/about.json
      - assets/data/skills.json
      - assets/data/experience.json 
      - assets/data/education.json
      - assets/data/projects.json
+     - assets/data/contact.json
+     - assets/data/footer.json
      - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see

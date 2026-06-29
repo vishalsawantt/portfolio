@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
+import 'package:portfolio/controllers/navbar_controller.dart';
 import 'package:portfolio/models/home_model.dart';
+import 'package:portfolio/screens/About/about_screen.dart';
+import 'package:portfolio/screens/Contact/contact_screen.dart';
 import 'package:portfolio/screens/Education/education_screen.dart';
 import 'package:portfolio/screens/Experience/experience_screen.dart';
 import 'package:portfolio/screens/Home/widget/hero_section.dart';
@@ -7,17 +12,19 @@ import 'package:portfolio/screens/Home/widget/navbar.dart';
 import 'package:portfolio/screens/Projects/projects_screen.dart';
 import 'package:portfolio/screens/Skills/skills_screen.dart';
 import 'package:portfolio/services/data_services.dart';
-
+import 'package:portfolio/widgets/footer_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final NavbarController controller = Get.put(NavbarController());
+
     return Scaffold(
+      drawer: const MobileNavDrawer(), 
       body: Column(
         children: [
-
           const NavBar(),
 
           Expanded(
@@ -27,41 +34,65 @@ class HomeScreen extends StatelessWidget {
                   // ── Hero Section ────────────────────────
                   // FutureBuilder waits for DataService.loadHome()
                   // then passes data to HeroSection
-                  FutureBuilder<HomeModel>(
-                    // calls DataService which reads home.json
-                    future: DataService.loadHome(),
+                  Container(
+                    key: controller.sectionKeys['home'],
+                    child: FutureBuilder<HomeModel>(
+                      // calls DataService which reads home.json
+                      future: DataService.loadHome(),
 
-                    builder: (context, snapshot) {
-                      // ── State 1: Still loading ───────────
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const _LoadingWidget();
-                      }
+                      builder: (context, snapshot) {
+                        // ── State 1: Still loading ───────────
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const _LoadingWidget();
+                        }
 
-                      // ── State 2: Error occurred ──────────
-                      if (snapshot.hasError) {
-                        return _ErrorWidget(
-                          error: snapshot.error.toString(),
-                        );
-                      }
+                        // ── State 2: Error occurred ──────────
+                        if (snapshot.hasError) {
+                          return _ErrorWidget(error: snapshot.error.toString());
+                        }
 
-                      // ── State 3: Data ready ──────────────
-                      // snapshot.data is our HomeModel object
-                      final HomeModel homeData = snapshot.data!;
+                        // ── State 3: Data ready ──────────────
+                        // snapshot.data is our HomeModel object
+                        final HomeModel homeData = snapshot.data!;
 
-                      // pass data down to HeroSection widget
-                      return HeroSection(data: homeData);
-                    },
+                        // pass data down to HeroSection widget
+                        return HeroSection(data: homeData);
+                      },
+                    ),
                   ),
 
-                  SkillsSection(),
+                  Container(
+                    key: controller.sectionKeys['about'],
+                    child: AboutSection(),
+                  ),
 
-                  // ── Add more sections below as you build ──
-                  // AboutSection(),
-                  ProjectsSection(),
-                  ExperienceSection(),
-                  EducationSection(),
-                  // ContactSection(),
+                  Container(
+                    key: controller.sectionKeys['experience'],
+                    child: ExperienceSection(),
+                  ),
+
+                  Container(
+                    key: controller.sectionKeys['skills'],
+                    child: SkillsSection(),
+                  ),
+
+                  Container(
+                    key: controller.sectionKeys['projects'],
+                    child: ProjectsSection(),
+                  ),
+
+                  Container(
+                    key: controller.sectionKeys['education'],
+                    child: EducationSection(),
+                  ),
+
+                  Container(
+                    key: controller.sectionKeys['contact'],
+                    child: ContactSection(),
+                  ),
+
+                  const FooterSection(), 
                 ],
               ),
             ),
@@ -109,27 +140,17 @@ class _ErrorWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error_outline,
-              color: Colors.redAccent,
-              size: 48,
-            ),
+            const Icon(Icons.error_outline, color: Colors.redAccent, size: 48),
             const SizedBox(height: 16),
             const Text(
               'Failed to load data',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             const SizedBox(height: 8),
             // shows actual error — helps in debugging
             Text(
               error,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 13,
-              ),
+              style: const TextStyle(color: Colors.grey, fontSize: 13),
               textAlign: TextAlign.center,
             ),
           ],

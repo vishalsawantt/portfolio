@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/core/responsive.dart';
 import 'package:portfolio/core/theme.dart';
@@ -16,11 +17,11 @@ class ProjectsSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: Responsive.isMobile(context) ? 24 : 80,
-        vertical: 80,
-      ),
+  horizontal: Responsive.isMobile(context) ? 24 : 80,
+  vertical: Responsive.isMobile(context) ? 40 : 80,
+),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SectionHeader(label: 'WHAT I BUILT', title: 'Projects'),
           const SizedBox(height: 48),
@@ -242,29 +243,36 @@ class _FeaturedContent extends StatelessWidget {
         )),
 
         //tech chips
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: project.tech
-              .map((t) => Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.border),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  t,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ))
-              .toList(),
-        ),
+        // Wrap(
+        //   spacing: 8,
+        //   runSpacing: 8,
+        //   children: project.tech
+        //       .map((t) => Container(
+        //         padding: const EdgeInsets.symmetric(
+        //           horizontal: 10,
+        //           vertical: 5,
+        //         ),
+        //         decoration: BoxDecoration(
+        //           border: Border.all(color: AppColors.border),
+        //           borderRadius: BorderRadius.circular(20),
+        //         ),
+        //         child: Text(
+        //           t,
+        //           style: const TextStyle(
+        //             fontSize: 12,
+        //             color: AppColors.textSecondary,
+        //           ),
+        //         ),
+        //       ))
+        //       .toList(),
+        // ),
+
+        //tech chips
+Wrap(
+  spacing: 8,
+  runSpacing: 8,
+  children: project.tech.map((t) => _TechChip(label: t)).toList(),
+),
 
         const SizedBox(height: 14),
 
@@ -335,6 +343,89 @@ class _LinkButton extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ----------------------------------------------------------
+// _techIconSlugs : maps tech name -> Simple Icons slug
+// not every tech has a real brand logo (e.g. Provider, GetX,
+// Dio are Flutter packages, not companies) — those just
+// fall back to text-only, same as before
+// ----------------------------------------------------------
+const Map<String, String> _techIconSlugs = {
+  'Flutter': 'flutter',
+  'Firebase': 'firebase',
+  'Firebase FCM': 'firebase',
+  'PostgreSQL': 'postgresql',
+  'Spring Boot': 'springboot',
+  'Kotlin': 'kotlin',
+  'Java': 'openjdk',
+  'Razorpay': 'razorpay',
+  'Google Maps': 'googlemaps',
+  'OpenCV': 'opencv',
+  'JavaScript': 'javascript',
+  'Next.js': 'nextdotjs',
+  'MySQL': 'mysql',
+  'Git': 'git',
+  'GitHub': 'github',
+  'HTML': 'html5',
+  'CSS': 'css',
+  'Figma': 'figma',
+  // Provider, GetX, Dio, News API → no brand logo, text-only
+};
+
+// ----------------------------------------------------------
+// _TechChip : shared tech tag with optional logo
+// used by both _FeaturedContent and _OtherProjectCard
+// ----------------------------------------------------------
+class _TechChip extends StatelessWidget {
+  final String label;
+  final bool small; // smaller version for _OtherProjectCard
+
+  const _TechChip({required this.label, this.small = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final String? slug = _techIconSlugs[label];
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: small ? 8 : 10,
+        vertical: small ? 4 : 5,
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (slug != null) ...[
+            Container(
+              width: small ? 12 : 14,
+              height: small ? 12 : 14,
+              padding: const EdgeInsets.all(1.5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(3),
+              ),
+              child: SvgPicture.network(
+                'https://cdn.simpleicons.org/$slug',
+                placeholderBuilder: (context) => const SizedBox.shrink(),
+              ),
+            ),
+            SizedBox(width: small ? 4 : 6),
+          ],
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: small ? 11 : 12,
+              color: AppColors.textSecondary,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -438,7 +529,7 @@ class _OtherProjectCard extends StatelessWidget {
               project.image,
               height: 120,
               width: double.infinity,
-              fit: BoxFit.contain, // ← contain keeps full logo
+              fit: BoxFit.cover, // ← contain keeps full logo
               errorBuilder: (context, error, stackTrace) {
                 return Container(
                   height: 120,
@@ -458,29 +549,37 @@ class _OtherProjectCard extends StatelessWidget {
           const SizedBox(height: 12),
 
           // ── tech chips ──
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: project.tech
-                .map((t) => Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.border),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        t,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ))
-                .toList(),
-          ),
+          // Wrap(
+          //   spacing: 6,
+          //   runSpacing: 6,
+          //   children: project.tech
+          //       .map((t) => Container(
+          //             padding: const EdgeInsets.symmetric(
+          //               horizontal: 8,
+          //               vertical: 4,
+          //             ),
+          //             decoration: BoxDecoration(
+          //               border: Border.all(color: AppColors.border),
+          //               borderRadius: BorderRadius.circular(20),
+          //             ),
+          //             child: Text(
+          //               t,
+          //               style: const TextStyle(
+          //                 fontSize: 11,
+          //                 color: AppColors.textSecondary,
+          //               ),
+          //             ),
+          //           ))
+          //       .toList(),
+          // ),
+          // ── tech chips ──
+Wrap(
+  spacing: 6,
+  runSpacing: 6,
+  children: project.tech
+      .map((t) => _TechChip(label: t, small: true))
+      .toList(),
+),
         ],
       ),
     );

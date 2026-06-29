@@ -1,0 +1,15 @@
+{
+  "badge": "ABOUT ME",
+  "heading": "Turning ideas into\nreal, working apps.",
+  "description": "Junior Software Engineer with hands-on experience building production-ready mobile applications. Currently contributing to Cosmino's app development using Flutter, Firebase, and modern API integrations — with additional experience across Next.js and full-stack development.",
+  "stats": [
+    { "value": "10+", "label": "Technologies" },
+    { "value": "5+", "label": "Projects Built" }
+  ],
+  "photo_badge": {
+    "value": "Mobile App Development",
+    "label": "Specializing In"
+  },
+  "image": "assets/images/vishal.png",
+  "cv_url": "files/Vishal_Sawant_Resume.pdf"
+}

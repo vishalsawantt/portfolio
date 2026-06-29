@@ -1,13 +1,15 @@
 {
   "name": "Vishal Sawant",
   "titles": [
-    "Flutter Developer",
-    "Mobile App Developer",
-    "Android Developer"
+    "Junior Software Engineer",
+    "Flutter Developer"
   ],
-  "bio": "Passionate mobile developer building real world apps with Flutter & Firebase.",
-  "cv_url": "https://vishalsawantt.netlify.app/IMAGES/VISHAL_SAWANT_7066188421_BACKEND.pdf",
+  "status": "Currently building @ Cosmino",
+  "headline": "Building mobile\nexperiences that work.",
+  "bio": "Application developer specialising in Flutter & Firebase, building full-stack, production ready apps across Android, iOS, and Web.",
+  "cv_url": "files/Vishal_Sawant_Resume.pdf",
   "github": "https://github.com/vishalsawantt",
   "linkedin": "https://linkedin.com/in/vishal-sawant2001",
-  "profile_image": "assets/images/vishal.jpeg"
+  "profile_image": "assets/images/vishal.png", 
+  "email": "sawantvishal2001@gmail.com"
 }

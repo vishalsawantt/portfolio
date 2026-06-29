@@ -6,26 +6,26 @@ import 'package:portfolio/screens/Skills/widget/skillsgrid.dart';
 import 'package:portfolio/services/data_services.dart';
 import 'package:portfolio/widgets/section_header.dart';
 
-class SkillsSection  extends StatelessWidget {
-  const SkillsSection ({super.key});
+class SkillsSection extends StatelessWidget {
+  const SkillsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: Responsive.isMobile(context) ? 24 :80,
-        vertical: 80,
-      ),
+  horizontal: Responsive.isMobile(context) ? 24 : 80,
+  vertical: Responsive.isMobile(context) ? 40 : 80,
+),
       color: AppColors.bgSection,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SectionHeader(label: "Technologies I work with", title: "Skills"),
-          
+          const SectionHeader(label: "Technologies I work with", title: "Skills"),
+
           const SizedBox(height: 48),
 
-          FutureBuilder<List<SkillModel>> (
+          FutureBuilder<SkillsModel>(
             future: DataService.loadSkills(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -41,7 +41,8 @@ class SkillsSection  extends StatelessWidget {
                   child: Text('Error: ${snapshot.error}'),
                 );
               }
-              return SkillsGrid(skills: snapshot.data!);
+              // pass categories list, not the old List<SkillModel>
+              return SkillsGrid(categories: snapshot.data!.categories);
             },
           ),
         ],

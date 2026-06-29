@@ -7,9 +7,11 @@
     "type": "Full Time",
     "description": "Building a startup app from scratch in a fast-paced environment.",
     "points": [
-      "Building and maintaining the Flutter app from scratch",
-      "Working closely with founders on product decisions",
-      "Implementing Firebase backend integration"
+      "Driving end-to-end Flutter development for a startup app built from the ground up, working directly with founders to shape product direction and feature priorities",
+      "Integrated Firebase services including Authentication and Cloud Messaging to power core app functionality, user onboarding and engagement",
+      "Implemented Razorpay payment integration and push notification workflows, alongside WhatsApp and Email API integrations for user communication",
+      "Contributed to the Next.js admin panel, building features that support backend operations alongside the core mobile app",
+      "Operating in a fast-paced startup environment with high ownership, balancing rapid iteration with production-quality code"
     ]
   },
   {
@@ -18,24 +20,12 @@
     "duration": "July 2025 - February 2026",
     "location": "Pune, India",
     "type": "Full Time",
-    "description": "Worked on company's analytics platform with Next.js and Flutter.",
+    "description": "Built core Flutter features for a B2B jewellery marketplace platform, connecting manufacturers with retailers through catalog browsing, order management and real-time order tracking.",
     "points": [
-      "Built Flutter mobile screens and features",
-      "Developed analytics panel using Next.js",
-      "Integrated REST APIs with backend services"
-    ]
-  },
-  {
-    "role": "Android Developer Intern",
-    "company": "Plutecoder Technologies",
-    "duration": "Aug 2023 - Oct 2023",
-    "location": "Solapur, India",
-    "type": "Internship",
-    "description": "Worked on Android app development using Java and Kotlin.",
-    "points": [
-      "Developed native Android features",
-      "Integrated REST APIs for data fetching",
-      "Fixed bugs and improved app performance"
+      "Architected the authentication and onboarding experience, including OTP auto-fill login and a multi-language onboarding flow, reducing signup friction for first-time users",
+      "Redesigned the product catalog UI, refactoring a toggle-based category switch into a scalable TabBar system supporting Bulk, Mass and Single product flows, with Google Maps integration for location-aware browsing",
+      "Built complex catalog features end-to-end including Bulk Product Listing APIs with deep navigation, an API-driven Coupon Card system, and an advanced weight-based filtering engine for sellers",
+      "Independently designed and shipped the app's Home page from Figma to production, including an interactive Weight Range selector and personalized product discovery sections"
     ]
   }
 ]

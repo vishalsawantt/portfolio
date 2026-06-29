@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
+import 'package:portfolio/controllers/navbar_controller.dart';
 import 'package:portfolio/core/responsive.dart';
 import 'package:portfolio/core/theme.dart';
 import 'package:portfolio/models/home_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HeroSection extends StatelessWidget {
-  // data comes from home.json via DataService
   final HomeModel data;
 
   const HeroSection({super.key, required this.data});
@@ -16,26 +18,24 @@ class HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      // min height = full screen height
-      constraints: BoxConstraints(
-        minHeight: Responsive.screenHeight(context),
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: Responsive.isMobile(context) ? 24 : 80,
-        vertical: 60,
-      ),
-      child: Responsive.isMobile(context)
-          // mobile → single column
-          ? _MobileHero(data: data)
-          // desktop → two columns
-          : _DesktopHero(data: data),
-    );
+  width: double.infinity,
+  // removed minHeight entirely — no more forced centering inside
+  // an oversized box, so top/bottom spacing are now independent
+  padding: EdgeInsets.only(
+    left: Responsive.isMobile(context) ? 24 : 80,
+    right: Responsive.isMobile(context) ? 24 : 80,
+    top: Responsive.isMobile(context) ? 40 : 80,   // ← ONLY this controls the gap after navbar
+    bottom: 60,                                      // ← ONLY this controls the gap before About
+  ),
+  child: Responsive.isMobile(context)
+      ? _MobileHero(data: data)
+      : _DesktopHero(data: data),
+);
   }
 }
 
 // ----------------------------------------------------------
-// _DesktopHero : text on left, image on right
+// _DesktopHero
 // ----------------------------------------------------------
 class _DesktopHero extends StatelessWidget {
   final HomeModel data;
@@ -47,26 +47,16 @@ class _DesktopHero extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // left side — text (takes 55% of width)
-        Expanded(
-          flex: 55,
-          child: _HeroText(data: data),
-        ),
-
+        Expanded(flex: 55, child: _HeroText(data: data)),
         const SizedBox(width: 40),
-
-        // right side — image (takes 45% of width)
-        Expanded(
-          flex: 45,
-          child: _HeroImage(imagePath: data.profileImage),
-        ),
+        Expanded(flex: 45, child: _HeroImage(imagePath: data.profileImage)),
       ],
     );
   }
 }
 
 // ----------------------------------------------------------
-// _MobileHero : image on top, text below
+// _MobileHero
 // ----------------------------------------------------------
 class _MobileHero extends StatelessWidget {
   final HomeModel data;
@@ -77,12 +67,8 @@ class _MobileHero extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // image on top for mobile
         _HeroImage(imagePath: data.profileImage),
-
         const SizedBox(height: 40),
-
-        // text below
         _HeroText(data: data),
       ],
     );
@@ -90,7 +76,7 @@ class _MobileHero extends StatelessWidget {
 }
 
 // ----------------------------------------------------------
-// _HeroText : greeting + name + typewriter + bio + buttons
+// _HeroText : badge + value headline + name/role + bio + buttons
 // ----------------------------------------------------------
 class _HeroText extends StatelessWidget {
   final HomeModel data;
@@ -102,88 +88,102 @@ class _HeroText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // greeting — fades in first
+        // status badge — like Taksh's "Open to freelance projects"
         FadeInDown(
           duration: const Duration(milliseconds: 600),
-          child: Text(
-            'Hi there 👋 I am',
-            style: TextStyle(
-              fontSize: 18,
-              color: AppColors.primary,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 1.5,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 7,
+                  height: 7,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  data.status,
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 28),
 
-        // name — slides in from left
+        // bold value headline — replaces "Hi there I am [Name]"
         FadeInLeft(
           duration: const Duration(milliseconds: 700),
           delay: const Duration(milliseconds: 200),
           child: Text(
-            data.name,
+            data.headline,
             style: Theme.of(context).textTheme.displayLarge,
           ),
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: 18),
 
-        // typewriter titles — fades in
+        // name + typewriter role — now a subtitle, not the headline
         FadeInLeft(
-          duration: const Duration(milliseconds: 700),
-          delay: const Duration(milliseconds: 400),
-          child: Row(
-            children: [
-              Text(
-                'I am a ',
-                style: TextStyle(
-                  fontSize: 22,
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w400,
+  duration: const Duration(milliseconds: 700),
+  delay: const Duration(milliseconds: 400),
+  child: Wrap(        // ← change Row to Wrap!
+    children: [
+      Text(
+        '${data.name} — ',
+        style: const TextStyle(
+          fontSize: 18,
+          color: AppColors.textSecondary,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      AnimatedTextKit(
+        animatedTexts: data.titles
+            .map(
+              (title) => TypewriterAnimatedText(
+                title,
+                speed: const Duration(milliseconds: 80),
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              // AnimatedTextKit cycles through titles from JSON
-              AnimatedTextKit(
-                animatedTexts: data.titles
-                    .map(
-                      (title) => TypewriterAnimatedText(
-                        title,
-                        // speed of typing each character
-                        speed: const Duration(milliseconds: 80),
-                        textStyle: const TextStyle(
-                          fontSize: 22,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
-                    .toList(),
-                // keep cycling forever
-                repeatForever: true,
-                // pause between each title
-                pause: const Duration(milliseconds: 1000),
-              ),
-            ],
-          ),
-        ),
+            )
+            .toList(),
+        repeatForever: true,
+        pause: const Duration(milliseconds: 1000),
+      ),
+    ],
+  ),
+),
 
         const SizedBox(height: 24),
 
-        // bio — fades in
+        // bio
         FadeInUp(
           duration: const Duration(milliseconds: 700),
           delay: const Duration(milliseconds: 600),
-          child: Text(
-            data.bio,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          child: Text(data.bio, style: Theme.of(context).textTheme.bodyLarge),
         ),
 
         const SizedBox(height: 36),
 
-        // buttons — zooms in
+        // buttons
         ZoomIn(
           duration: const Duration(milliseconds: 600),
           delay: const Duration(milliseconds: 800),
@@ -192,7 +192,7 @@ class _HeroText extends StatelessWidget {
 
         const SizedBox(height: 32),
 
-        // social links — fades in last
+        // social links
         FadeInUp(
           duration: const Duration(milliseconds: 600),
           delay: const Duration(milliseconds: 1000),
@@ -216,57 +216,40 @@ class _HeroButtons extends StatelessWidget {
       spacing: 16,
       runSpacing: 16,
       children: [
-        // Primary button — View Projects
         ElevatedButton(
           onPressed: () {
-            // TODO: scroll to projects section
+            final controller = Get.find<NavbarController>();
+            controller.scrollToSection('projects');
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             foregroundColor: AppColors.bgDark,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 28,
-              vertical: 16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
           child: const Text(
             'View Projects',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 15,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
           ),
         ),
-
-        // Secondary button — Download CV
         OutlinedButton(
           onPressed: () async {
-            // opens CV url in browser
-            final Uri url = Uri.parse(data.cvUrl);
-            if (await canLaunchUrl(url)) {
-              await launchUrl(url);
-            }
+            final Uri url = Uri.base.resolve(data.cvUrl);
+            await launchUrl(url, mode: LaunchMode.externalApplication);
           },
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.textPrimary,
             side: const BorderSide(color: AppColors.border, width: 1),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 28,
-              vertical: 16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
           child: const Text(
             'Download CV',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
           ),
         ),
       ],
@@ -275,7 +258,7 @@ class _HeroButtons extends StatelessWidget {
 }
 
 // ----------------------------------------------------------
-// _SocialLinks : GitHub + LinkedIn icon buttons
+// _SocialLinks
 // ----------------------------------------------------------
 class _SocialLinks extends StatelessWidget {
   final HomeModel data;
@@ -285,27 +268,34 @@ class _SocialLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // GitHub icon button
         _SocialIcon(
           icon: FontAwesomeIcons.github,
           url: data.github,
           tooltip: 'GitHub',
         ),
         const SizedBox(width: 20),
-        // LinkedIn icon button
         _SocialIcon(
           icon: FontAwesomeIcons.linkedin,
           url: data.linkedin,
           tooltip: 'LinkedIn',
+        ),
+        const SizedBox(width: 20),
+        _SocialIcon(
+          icon: FontAwesomeIcons.whatsapp,
+          url: 'https://wa.me/917066188421',
+          tooltip: 'WhatsApp',
+        ),
+        const SizedBox(width: 20),
+        _SocialIcon(
+          icon: FontAwesomeIcons.envelope,
+          url: 'mailto:${data.email}',
+          tooltip: 'Email',
         ),
       ],
     );
   }
 }
 
-// ----------------------------------------------------------
-// _SocialIcon : single social icon with hover effect
-// ----------------------------------------------------------
 class _SocialIcon extends StatefulWidget {
   final IconData icon;
   final String url;
@@ -322,7 +312,6 @@ class _SocialIcon extends StatefulWidget {
 }
 
 class _SocialIconState extends State<_SocialIcon> {
-  // isHovered tracks mouse hover for web
   bool isHovered = false;
 
   @override
@@ -330,7 +319,6 @@ class _SocialIconState extends State<_SocialIcon> {
     return Tooltip(
       message: widget.tooltip,
       child: MouseRegion(
-        // MouseRegion detects hover on web/desktop
         onEnter: (_) => setState(() => isHovered = true),
         onExit: (_) => setState(() => isHovered = false),
         child: GestureDetector(
@@ -344,7 +332,6 @@ class _SocialIconState extends State<_SocialIcon> {
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              // on hover → show border
               border: Border.all(
                 color: isHovered ? AppColors.primary : AppColors.border,
                 width: 1,
@@ -353,7 +340,6 @@ class _SocialIconState extends State<_SocialIcon> {
             ),
             child: FaIcon(
               widget.icon,
-              // on hover → accent color, else grey
               color: isHovered ? AppColors.primary : AppColors.textSecondary,
               size: 18,
             ),
@@ -365,7 +351,7 @@ class _SocialIconState extends State<_SocialIcon> {
 }
 
 // ----------------------------------------------------------
-// _HeroImage : profile photo with glowing border
+// _HeroImage
 // ----------------------------------------------------------
 class _HeroImage extends StatelessWidget {
   final String imagePath;
@@ -381,25 +367,23 @@ class _HeroImage extends StatelessWidget {
           width: 320,
           height: 320,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            // glow effect around image
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withOpacity(0.25),
-                blurRadius: 60,
-                spreadRadius: 10,
-              ),
-            ],
-            border: Border.all(
-              color: AppColors.primary.withOpacity(0.4),
-              width: 2,
-            ),
-          ),
+  shape: BoxShape.circle,
+  boxShadow: [
+    BoxShadow(
+      color: AppColors.primary.withOpacity(0.35),
+      blurRadius: 70,
+      spreadRadius: 8,
+    ),
+  ],
+  border: Border.all(
+    color: AppColors.primary,   // full opacity, not faded — this is the main change
+    width: 5,                    // thicker border — was 2
+  ),
+),
           child: ClipOval(
             child: Image.asset(
               imagePath,
               fit: BoxFit.cover,
-              // shows placeholder if image not found
               errorBuilder: (context, error, stackTrace) {
                 return Container(
                   color: AppColors.bgCard,

@@ -76,9 +76,10 @@ class _NavLinks extends StatelessWidget {
   final List<String> sections = const [
     'home',
     'about',
+    'experience',
     'skills',
     'projects',
-    'experience',
+    'education',
     'contact',
   ];
 
@@ -109,7 +110,7 @@ class _NavItem extends StatelessWidget {
       final bool isActive = controller.activeSection.value == label;
 
       return GestureDetector(
-        onTap: () => controller.setActive(label),
+        onTap: () => controller.scrollToSection(label),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 4),
@@ -144,8 +145,78 @@ class _MobileMenuBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () => Scaffold.of(context).openDrawer(), // ← changed
       icon: const Icon(Icons.menu, color: AppColors.textPrimary),
+    );
+  }
+}
+
+// ----------------------------------------------------------
+// MobileNavDrawer : slide-out menu for mobile screens
+// ----------------------------------------------------------
+class MobileNavDrawer extends StatelessWidget {
+  const MobileNavDrawer({super.key});
+
+  final List<String> sections = const [
+    'home',
+    'about',
+    'experience',
+    'skills',
+    'projects',
+    'education',
+    'contact',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final NavbarController controller = Get.find<NavbarController>();
+
+    return Drawer(
+      backgroundColor: AppColors.bgDark,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+  padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+  child: _NavLogo(),
+),
+            const Divider(color: AppColors.border, height: 1),
+            const SizedBox(height: 8),
+
+            // nav links list
+            Expanded(
+              child: ListView(
+                children: sections.map((section) {
+                  return Obx(() {
+                    final bool isActive =
+                        controller.activeSection.value == section;
+
+                    return ListTile(
+                      title: Text(
+                        section[0].toUpperCase() + section.substring(1),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight:
+                              isActive ? FontWeight.w600 : FontWeight.w400,
+                          color: isActive
+                              ? AppColors.primary
+                              : AppColors.textSecondary,
+                        ),
+                      ),
+                      onTap: () {
+                        // close drawer first, then scroll to section
+                        Navigator.of(context).pop();
+                        controller.scrollToSection(section);
+                      },
+                    );
+                  });
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

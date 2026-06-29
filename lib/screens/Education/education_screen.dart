@@ -14,12 +14,12 @@ class EducationSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: Responsive.isMobile(context) ? 24 :80,
-        vertical: 60,
-      ),
+  horizontal: Responsive.isMobile(context) ? 24 : 80,
+  vertical: Responsive.isMobile(context) ? 32 : 60,
+),
       color: AppColors.bgSection,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SectionHeader(label: 'BACKGROUND', title: 'Education'),
           const SizedBox(height: 32),
@@ -41,27 +41,20 @@ class EducationSection extends StatelessWidget {
 
               final educationList = snapshot.data!;
 
-              if (Responsive.isMobile(context)) {
-                return Column(
-                  children: educationList
-                      .map((edu) => Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: _EducationCard(education: edu),
-                        ))
-                      .toList(),
-                );
-              } else {
-                return Row(
-                  children: educationList
-                      .map((edu) => Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16),
+              // ── same width cap + centering as Experience section ──
+              return Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: Column(
+                    children: educationList
+                        .map((edu) => Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
                           child: _EducationCard(education: edu),
-                          ),
                           ))
-                      .toList(),
-                );
-              }
+                        .toList(),
+                  ),
+                ),
+              );
             },
           ),
         ],

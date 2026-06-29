@@ -29,23 +29,25 @@ class AppTheme {
       brightness: Brightness.dark,
       scaffoldBackgroundColor: AppColors.bgDark,
 
-      // using google fonts — Syne for display, Inter for body
-      textTheme: GoogleFonts.syneTextTheme().copyWith(
+      // using google fonts — Quicksand for display, Inter for body
+      // Quicksand = rounded/soft look, matches Taksh's reference font
+      textTheme: GoogleFonts.quicksandTextTheme().copyWith(
         // display large = your name (big heading)
-        displayLarge: GoogleFonts.syne(
+        displayLarge: GoogleFonts.quicksand(
           fontSize: 56,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
-          letterSpacing: -1.5,
+          // removed negative letterSpacing — Quicksand is rounded,
+          // tight spacing made sense for Syne (sharp font) but not here
         ),
         // display medium = section titles
-        displayMedium: GoogleFonts.poppins(
+        displayMedium: GoogleFonts.quicksand(
           fontSize: 36,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
         ),
         // title large = card titles
-        titleLarge: GoogleFonts.syne(
+        titleLarge: GoogleFonts.quicksand(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
