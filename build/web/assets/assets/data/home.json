@@ -1,0 +1,15 @@
+{
+  "name": "Vishal Sawant",
+  "titles": [
+    "Junior Software Engineer",
+    "Flutter Developer"
+  ],
+  "status": "Currently building @ Cosmino",
+  "headline": "Building mobile\nexperiences that work.",
+  "bio": "Application developer specialising in Flutter & Firebase, building full-stack, production ready apps across Android, iOS, and Web.",
+  "cv_url": "files/Vishal_Sawant_Resume.pdf",
+  "github": "https://github.com/vishalsawantt",
+  "linkedin": "https://linkedin.com/in/vishal-sawant2001",
+  "profile_image": "assets/images/vishal.png", 
+  "email": "sawantvishal2001@gmail.com"
+}

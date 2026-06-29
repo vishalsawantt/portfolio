@@ -1,0 +1,68 @@
+{
+  "featured": [
+    {
+      "title": "Cosmino",
+      "tagline": "Early-stage startup app built from scratch",
+      "description": "Building the core Flutter application for an early-stage startup, working closely with founders on product features and Firebase backend integration.",
+      "points": [
+        "Contributing to Flutter development for a large-scale entertainment application across Android and iOS, building the complete onboarding journey including multi-step registration, profile setup, Google Sign-In and Firebase Authentication",
+        "Built live session infrastructure enabling users to discover, join and manage scheduled events, integrating Vimeo for video content and Whereby for real-time virtual meetings",
+        "Implemented end-to-end monetization features including Razorpay payment integration, in-app purchases, and a wallet, coupon and promotional offer system backed by secure API workflows",
+        "Integrated Firebase Remote Config to enable fast, controlled feature rollouts without app releases, alongside Cloud Messaging and Analytics to drive user engagement and monitor app health",
+        "Designed and implemented pixel-perfect responsive UI from Figma, while optimizing app performance by refactoring modules and reducing unnecessary widget rebuilds",
+        "Managed Play Store and App Store release cycles end-to-end and implemented event tracking with Amplitude to measure user behavior and feature engagement"
+      ],
+      "tech": ["Flutter", "Firebase"],
+      "image": "assets/images/projects/cosmino.png",
+      "github": "",
+      "demo": "",
+      "badge": "Live on App Store"
+    },
+    {
+      "title": "B2B Jewellery Marketplace",
+      "tagline": "Connecting jewellery manufacturers with retailers",
+      "description": "A B2B platform where retailers browse jewellery catalogs and place wholesale orders. Built the Flutter app with order management, catalog, and real-time tracking features.",
+      "points": [
+        "Architected the core authentication and onboarding experience, including OTP auto-fill login and a multi-language onboarding flow for first-time users, significantly reducing signup friction across the app",
+        "Redesigned the product catalog UI by refactoring a toggle-based category switch into a scalable TabBar system supporting Bulk, Mass and Single product flows, with Google Maps integration for location-aware browsing",
+        "Built and integrated complex catalog features end-to-end, including Bulk Product Listing APIs with deep navigation and data binding, a fully API-driven Coupon Card system, and an advanced weight-based seller-side filtering engine",
+        "Independently designed and shipped the app's Home page from scratch in Figma — including an interactive Weight Range selector with dynamic quantity controls, Shop by Seller, and Similar Products sections — fully wired to backend APIs"
+      ],
+      "tech": ["Flutter", "PostgreSQL"],
+      "image": "assets/images/projects/jewellery.png",
+      "github": "",
+      "demo": "",
+      "badge": "Contributed to Live App"
+    }
+  ],
+  "other": [
+     {
+      "title": "BlogApp Pro",
+      "description": "Full-stack blogging app with JWT auth, FCM push notifications, post likes and image uploads using Flutter + Spring Boot backend.",
+      "tech": ["Flutter", "Spring Boot", "Firebase FCM", "PostgreSQL"],
+      "github": "https://github.com/vishalsawantt/blogapp-pro-flutter",
+      "image": "assets/images/blogapp.png"
+    },
+    {
+      "title": "Barber Booking App",
+      "description": "Android app for booking barber slots with Razorpay payment, real-time chat, and shopkeeper management panel.",
+      "tech": ["Kotlin", "Firebase", "Razorpay", "Google Maps"],
+      "github": "https://github.com/vishalsawantt/barber-booking-android",
+      "image": "assets/images/barberapp.jpg"
+    },
+    {
+      "title": "Missing Person Finder",
+      "description": "Android app to report and locate missing persons with real-time Google Maps sightings, OpenCV face detection and Firebase chat.",
+      "tech": ["Java", "Firebase", "Google Maps", "OpenCV"],
+      "github": "https://github.com/vishalsawantt/find-missing-person-android",
+      "image": "assets/images/missingpersonapp.jpg"
+    },
+    {
+      "title": "Flutter News App",
+      "description": "News aggregator app with category-wise browsing, real-time API integration and GetX state management.",
+      "tech": ["Flutter"],
+      "github": "https://github.com/vishalsawantt/flutter_news_app",
+      "image": "assets/images/newsapp.jpg"
+    }
+  ]
+}

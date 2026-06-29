@@ -1,0 +1,32 @@
+{
+  "categories": [
+    {
+      "title": "Languages & Frameworks",
+      "skills": [
+        { "name": "Dart", "icon": "https://cdn.simpleicons.org/dart" },
+        { "name": "Flutter", "icon": "https://cdn.simpleicons.org/flutter" },
+        { "name": "Java", "icon": "https://cdn.simpleicons.org/openjdk" },
+        { "name": "Next.js", "icon": "https://cdn.simpleicons.org/nextdotjs" },
+        { "name": "JavaScript", "icon": "https://cdn.simpleicons.org/javascript" }
+      ]
+    },
+    {
+      "title": "Backend & Database",
+      "skills": [
+        { "name": "Firebase", "icon": "https://cdn.simpleicons.org/firebase" },
+        { "name": "Spring Boot", "icon": "https://cdn.simpleicons.org/springboot" },
+        { "name": "MySQL", "icon": "https://cdn.simpleicons.org/mysql" }
+      ]
+    },
+    {
+      "title": "Tools & Platforms",
+      "skills": [
+        { "name": "Git", "icon": "https://cdn.simpleicons.org/git" },
+        { "name": "GitHub", "icon": "https://cdn.simpleicons.org/github" },
+        { "name": "VS Code", "icon": "https://cdn.simpleicons.org/visualstudiocode" },
+        { "name": "Android Studio", "icon": "https://cdn.simpleicons.org/androidstudio" },
+        { "name": "Postman", "icon": "https://cdn.simpleicons.org/postman" }
+      ]
+    }
+  ]
+}
