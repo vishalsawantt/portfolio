@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:portfolio/models/about_model.dart';
 import 'package:portfolio/models/contact_model.dart';
+import 'package:portfolio/models/delete_account_model.dart';
 import 'package:portfolio/models/education_model.dart';
 import 'package:portfolio/models/experience_model.dart';
 import 'package:portfolio/models/footer_model.dart';
@@ -71,4 +72,11 @@ static Future<FooterModel> loadFooter() async {
   final Map<String, dynamic> jsonData = jsonDecode(jsonString);
   return FooterModel.fromJson(jsonData);
 }
+
+Future<DeleteAccountModel> loadPolicy() async {
+    final String rawJson = await rootBundle.loadString('assets/data/delete_account.json');
+    final Map<String, dynamic> jsonMap =
+        jsonDecode(rawJson) as Map<String, dynamic>;
+    return DeleteAccountModel.fromJson(jsonMap);
+  }
 }

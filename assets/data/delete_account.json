@@ -1,0 +1,37 @@
+{
+  "header": {
+    "title": "Delete Account & Data Deletion Policy",
+    "subtitle": "Information about deleting your account and personal data from applications developed by Vishal Sawant."
+  },
+  "sections": [
+    {
+      "icon": "person_remove_outlined",
+      "title": "Delete Account",
+      "description": "You can permanently delete your account directly from within the app.\n\nNavigation: Profile → Delete Account\n\nOnce deleted, your authentication account is permanently removed and cannot be recovered."
+    },
+    {
+      "icon": "delete_sweep_outlined",
+      "title": "Delete Data",
+      "description": "You can delete individual pieces of app data without deleting your entire account, wherever the app supports it.\n\nExample — Expense Tracker: swipe left on an expense to delete that record instantly."
+    }
+  ],
+  "checklistTitle": "Data Deleted",
+  "checklistIcon": "checklist_rtl_outlined",
+  "checklistItems": [
+    "User account",
+    "Profile information",
+    "Expense records",
+    "Personal application data"
+  ],
+  "retention": {
+    "icon": "schedule_outlined",
+    "title": "Data Retention",
+    "description": "After account deletion, your data is permanently removed from our systems, unless a longer retention period is required by law."
+  },
+  "contact": {
+    "developerName": "Vishal Sawant",
+    "developerEmail": "sawantvishal2001@gmail.com",
+    "portfolioUrl": "https://vishalsawantportfolio.netlify.app/"
+  },
+  "footer": "© Vishal Sawant. All Rights Reserved."
+}

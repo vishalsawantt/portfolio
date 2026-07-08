@@ -79,6 +79,7 @@ flutter:
      - assets/data/projects.json
      - assets/data/contact.json
      - assets/data/footer.json
+     - assets/data/delete_account.json
      - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
