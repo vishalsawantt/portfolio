@@ -17,9 +17,12 @@
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
 
-# Hashed build assets (main.dart.js, etc.) are safe to cache long-term
-# since Flutter renames them on every build.
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+# NOTE: this project's `flutter build web` does NOT content-hash
+# main.dart.js / flutter_bootstrap.js / flutter_service_worker.js — they
+# keep the same filename every build. A "/*.js" immutable-cache rule here
+# previously overrode the no-cache rule above for flutter_service_worker.js
+# (Netlify merges header rules per file, last match wins), which caused
+# browsers to keep a stale service worker — and therefore a stale
+# main.dart.js — for up to a year after every deploy. Do not reintroduce
+# long-term caching for top-level .js files unless build output starts
+# using content-hashed filenames.
