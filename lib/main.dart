@@ -1,12 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // GetX — for state management
-import 'package:portfolio/screens/DeleteAccount/delete_account_screen.dart';
-import 'package:portfolio/screens/Home/home_screen.dart';
-import 'core/theme.dart';
 import 'dart:html' as html;
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:portfolio/screens/DeleteAccount/delete_account_screen.dart';
+import 'package:portfolio/screens/Home/home_screen.dart';
+
+import 'core/theme.dart';
 
 void main() {
+  print("PATH: ${html.window.location.pathname}");
+  print("SEARCH: ${html.window.location.search}");
+  print("HASH: ${html.window.location.hash}");
+
   runApp(const MyApp());
 }
 
@@ -15,19 +20,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the query parameter safely
+    final String search = html.window.location.search ?? "";
+
+    // Check if the URL contains ?page=delete-account
+    final bool showDeletePage =
+        search.contains("page=delete-account");
+
     return GetMaterialApp(
       title: 'Vishal Sawant | Flutter Developer',
-
-      // hide debug banner on top right
       debugShowCheckedModeBanner: false,
-
-      // apply our dark theme from theme.dart
       theme: AppTheme.dark,
 
-      // home screen is our starting screen
-      home: html.window.location.pathname == '/delete-account'
-    ?  DeleteAccountScreen()
-    : const HomeScreen(),
+      home: showDeletePage
+          ? DeleteAccountScreen()
+          : const HomeScreen(),
     );
   }
 }
