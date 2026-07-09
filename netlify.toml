@@ -1,0 +1,25 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Never cache index.html — it must always be fetched fresh so users
+# get the latest main.dart.js reference immediately after each deploy.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Never cache the Flutter service worker itself — otherwise it can
+# get stuck serving an old cached app version indefinitely.
+[[headers]]
+  for = "/flutter_service_worker.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Hashed build assets (main.dart.js, etc.) are safe to cache long-term
+# since Flutter renames them on every build.
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
